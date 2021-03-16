@@ -1,0 +1,3 @@
+module Cutefish.NetworkManagement
+
+plugin cutefishnm_qmlplugins

@@ -1,0 +1,3 @@
+module Cutefish.Screen
+
+plugin cutefishscreen_qmlplugins

@@ -1,0 +1,2 @@
+module Cutefish.Mpris
+plugin cutefishmpris_qmlplugins
