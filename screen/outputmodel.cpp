@@ -14,6 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
+
 #include "outputmodel.h"
 
 #include "./common/utils.h"
@@ -173,7 +174,8 @@ bool OutputModel::setData(const QModelIndex &index,
     return false;
 }
 
-QHash<int, QByteArray> OutputModel::roleNames() const {
+QHash<int, QByteArray> OutputModel::roleNames() const
+{
     QHash<int, QByteArray> roles = QAbstractItemModel::roleNames();
     roles[EnabledRole] = "enabled";
     roles[InternalRole] = "internal";
@@ -483,6 +485,7 @@ static int greatestCommonDivisor(int a, int b) {
 QVariantList OutputModel::resolutionsStrings(const KScreen::OutputPtr &output) const
 {
     QVariantList ret;
+
     for (const QSize &size : resolutions(output)) {
         int divisor = greatestCommonDivisor(size.width(), size.height());
 
@@ -491,17 +494,12 @@ QVariantList OutputModel::resolutionsStrings(const KScreen::OutputPtr &output) c
             divisor /= 2;
         }
 
-        const QString text;
-
-        // const QString text = i18nc("Width x height (aspect ratio)", "%1x%2 (%3:%4)",
-        //                            // Explicitly not have it add thousand-separators.
-        //                            QString::number(size.width()),
-        //                            QString::number(size.height()),
-        //                            size.width() / divisor,
-        //                            size.height() / divisor);
+        const QString text = QString("%1x%2").arg(QString::number(size.width()))
+                                                     .arg(QString::number(size.height()));
 
         ret << text;
     }
+
     return ret;
 }
 

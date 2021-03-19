@@ -20,6 +20,7 @@ public:
     OutputModel *outputModel() const;
 
     void load();
+    Q_INVOKABLE void save();
 
 private:
     void configReady(KScreen::ConfigOperation *op);

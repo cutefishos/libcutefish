@@ -11,7 +11,7 @@ class QmlPlugins : public QQmlExtensionPlugin
 
 public:
     void registerTypes(const char * uri) override {
-        // qmlRegisterType<OutputModel>(uri, 1, 0, "Screen");
+        // qmlRegisterType<OutputModel>(uri, 1, 0, "OutputModel");
         qmlRegisterType<Screen>(uri, 1, 0, "Screen");
         qmlRegisterType<KScreen::Output>(uri, 1, 0, "Output");
     }

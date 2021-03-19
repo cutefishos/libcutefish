@@ -1,6 +1,8 @@
 #include "screen.h"
 #include "outputmodel.h"
 
+#include <kscreen/setconfigoperation.h>
+
 #include <QQmlExtensionPlugin>
 #include <QQmlEngine>
 
@@ -27,6 +29,22 @@ void Screen::load()
     connect(m_config.get(), &ConfigHandler::outputModelChanged, this, &Screen::outputModelChanged);
 
     connect(new KScreen::GetConfigOperation(), &KScreen::GetConfigOperation::finished, this, &Screen::configReady);
+}
+
+void Screen::save()
+{
+    auto config = m_config->config();
+    bool atLeastOneEnabledOutput = false;
+
+    for (const KScreen::OutputPtr &output : config->outputs()) {
+        KScreen::ModePtr mode = output->currentMode();
+        atLeastOneEnabledOutput |= output->isEnabled();
+    }
+
+    m_config->writeControl();
+
+    auto *op = new KScreen::SetConfigOperation(config);
+    op->exec();
 }
 
 OutputModel *Screen::outputModel() const

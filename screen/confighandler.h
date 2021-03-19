@@ -14,7 +14,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
-#pragma once
+
+#ifndef CONFIGHANDLER_H
+#define CONFIGHANDLER_H
 
 #include "./common/control.h"
 
@@ -27,6 +29,7 @@ class OutputModel;
 class ConfigHandler : public QObject
 {
     Q_OBJECT
+
 public:
     explicit ConfigHandler (QObject *parent = nullptr);
     ~ConfigHandler() override = default;
@@ -93,3 +96,5 @@ private:
                                                   Undefined;
     QSize m_lastNormalizedScreenSize;
 };
+
+#endif

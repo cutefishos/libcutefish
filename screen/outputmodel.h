@@ -14,7 +14,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
-#pragma once
+
+#ifndef OUTPUTMODEL_H
+#define OUTPUTMODEL_H
 
 #include <kscreen/config.h>
 #include <kscreen/output.h>
@@ -148,3 +150,5 @@ private:
 
     ConfigHandler *m_config;
 };
+
+#endif
