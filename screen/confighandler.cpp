@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kscreen/output.h>
 
 #include <QRect>
+#include <QDebug>
 
 using namespace KScreen;
 
@@ -42,10 +43,8 @@ void ConfigHandler::setConfig(KScreen::ConfigPtr config)
     m_control.reset(new ControlConfig(config));
 
     m_outputs = new OutputModel(this);
-    connect(m_outputs, &OutputModel::positionChanged,
-            this, &ConfigHandler::checkScreenNormalization);
-    connect(m_outputs, &OutputModel::sizeChanged,
-            this, &ConfigHandler::checkScreenNormalization);
+    connect(m_outputs, &OutputModel::positionChanged, this, &ConfigHandler::checkScreenNormalization);
+    connect(m_outputs, &OutputModel::sizeChanged, this, &ConfigHandler::checkScreenNormalization);
 
     for (const KScreen::OutputPtr &output : config->outputs()) {
         initOutput(output);
@@ -56,17 +55,17 @@ void ConfigHandler::setConfig(KScreen::ConfigPtr config)
     m_initialRetention = getRetention();
     Q_EMIT retentionChanged();
 
-    connect(m_outputs, &OutputModel::changed,
-            this, [this]() {
-                checkNeedsSave();
-                Q_EMIT changed();
+    connect(m_outputs, &OutputModel::changed, this, [this]() {
+        checkNeedsSave();
+        Q_EMIT changed();
     });
-    connect(m_config.data(), &KScreen::Config::outputAdded,
-            this, [this]() { Q_EMIT outputConnect(true); });
-    connect(m_config.data(), &KScreen::Config::outputRemoved,
-            this, [this]() { Q_EMIT outputConnect(false); });
-    connect(m_config.data(), &KScreen::Config::primaryOutputChanged,
-            this, &ConfigHandler::primaryOutputChanged);
+    connect(m_config.data(), &KScreen::Config::outputAdded, this, [this]() {
+        Q_EMIT outputConnect(true);
+    });
+    connect(m_config.data(), &KScreen::Config::outputRemoved, this, [this]() {
+        Q_EMIT outputConnect(false);
+    });
+    connect(m_config.data(), &KScreen::Config::primaryOutputChanged, this, &ConfigHandler::primaryOutputChanged);
 
     Q_EMIT outputModelChanged();
 }
@@ -92,8 +91,7 @@ void ConfigHandler::initOutput(const KScreen::OutputPtr &output)
         resetScale(output);
         m_outputs->add(output);
     }
-    connect(output.data(), &KScreen::Output::isConnectedChanged,
-            this, [this, output]() {
+    connect(output.data(), &KScreen::Output::isConnectedChanged, this, [this, output]() {
         Q_EMIT outputConnect(output->isConnected());
     });
 }
@@ -101,12 +99,11 @@ void ConfigHandler::initOutput(const KScreen::OutputPtr &output)
 void ConfigHandler::updateInitialData()
 {
     m_initialRetention = getRetention();
-    connect(new GetConfigOperation(), &GetConfigOperation::finished,
-            this, [this](ConfigOperation *op) {
+    connect(new GetConfigOperation(), &GetConfigOperation::finished, this, [this](ConfigOperation *op) {
         if (op->hasError()) {
             return;
         }
-        m_initialConfig = qobject_cast<GetConfigOperation*>(op)->config();
+        m_initialConfig = qobject_cast<GetConfigOperation *>(op)->config();
         for (auto output : m_config->outputs()) {
             resetScale(output);
         }
@@ -117,11 +114,9 @@ void ConfigHandler::updateInitialData()
 
 void ConfigHandler::checkNeedsSave()
 {
-    if (m_config->supportedFeatures() &
-            KScreen::Config::Feature::PrimaryDisplay) {
+    if (m_config->supportedFeatures() & KScreen::Config::Feature::PrimaryDisplay) {
         if (m_config->primaryOutput() && m_initialConfig->primaryOutput()) {
-            if (m_config->primaryOutput()->hashMd5() !=
-                    m_initialConfig->primaryOutput()->hashMd5() ) {
+            if (m_config->primaryOutput()->hashMd5() != m_initialConfig->primaryOutput()->hashMd5()) {
                 Q_EMIT needsSaveChecked(true);
                 return;
             }
@@ -146,6 +141,7 @@ void ConfigHandler::checkNeedsSave()
             if (output->isEnabled() != initialOutput->isEnabled()) {
                 needsSave = true;
             }
+            // clang-format off
             if (output->isEnabled()) {
                 needsSave |= output->currentModeId() !=
                                 initialOutput->currentModeId()
@@ -157,6 +153,7 @@ void ConfigHandler::checkNeedsSave()
                              || autoRotateOnlyInTabletMode(output)
                                     != m_initialControl->getAutoRotateOnlyInTabletMode(output);
             }
+            // clang-format on
             if (needsSave) {
                 Q_EMIT needsSaveChecked(true);
                 return;
@@ -211,9 +208,7 @@ QSize ConfigHandler::normalizeScreen()
 
 void ConfigHandler::checkScreenNormalization()
 {
-    const bool normalized = !m_config ||
-            (m_lastNormalizedScreenSize == screenSize() &&
-             m_outputs->positionsNormalized());
+    const bool normalized = !m_config || (m_lastNormalizedScreenSize == screenSize() && m_outputs->positionsNormalized());
 
     Q_EMIT screenNormalizationUpdate(normalized);
 }
@@ -227,7 +222,6 @@ void ConfigHandler::primaryOutputSelected(int index)
 void ConfigHandler::primaryOutputChanged(const KScreen::OutputPtr &output)
 {
     Q_UNUSED(output)
-
 }
 
 Control::OutputRetention ConfigHandler::getRetention() const
@@ -246,7 +240,7 @@ Control::OutputRetention ConfigHandler::getRetention() const
 
     for (const auto &output : outputs) {
         const auto outputRet = m_control->getOutputRetention(output);
-        if (ret != outputRet ) {
+        if (ret != outputRet) {
             // Control file with different retention values per output.
             return Retention::Undefined;
         }
@@ -272,8 +266,7 @@ void ConfigHandler::setRetention(int retention)
     if (!m_control) {
         return;
     }
-    if (retention != static_cast<int>(Retention::Global) &&
-            retention != static_cast<int>(Retention::Individual)) {
+    if (retention != static_cast<int>(Retention::Global) && retention != static_cast<int>(Retention::Individual)) {
         // We only allow setting to global or individual retention.
         return;
     }
@@ -304,8 +297,7 @@ KScreen::OutputPtr ConfigHandler::replicationSource(const KScreen::OutputPtr &ou
     return m_control->getReplicationSource(output);
 }
 
-void ConfigHandler::setReplicationSource(KScreen::OutputPtr &output,
-                                         const KScreen::OutputPtr &source)
+void ConfigHandler::setReplicationSource(KScreen::OutputPtr &output, const KScreen::OutputPtr &source)
 {
     m_control->setReplicationSource(output, source);
 }

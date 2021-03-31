@@ -297,8 +297,7 @@ bool OutputModel::setEnabled(int outputIndex, bool enable)
     return true;
 }
 
-inline
-bool refreshRateCompare(float rate1, float rate2)
+inline bool refreshRateCompare(float rate1, float rate2)
 {
     return qAbs(rate1 - rate2) < 0.5;
 }

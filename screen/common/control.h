@@ -14,16 +14,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
+
 #ifndef COMMON_CONTROL_H
 #define COMMON_CONTROL_H
 
 #include <kscreen/types.h>
 
 #include <QObject>
-#include <QVector>
 #include <QVariantMap>
+#include <QVector>
 
-class QFileSystemWatcher;
+class KDirWatch;
 
 class Control : public QObject
 {
@@ -38,7 +39,6 @@ public:
 
     explicit Control(QObject *parent = nullptr);
 
-
     ~Control() override = default;
 
     virtual bool writeFile();
@@ -52,16 +52,16 @@ protected:
     virtual QString filePath() const = 0;
     QString filePathFromHash(const QString &hash) const;
     void readFile();
-    QVariantMap& info();
-    const QVariantMap& constInfo() const;
-    QFileSystemWatcher* watcher() const;
+    QVariantMap &info();
+    const QVariantMap &constInfo() const;
+    KDirWatch *watcher() const;
 
     static OutputRetention convertVariantToOutputRetention(QVariant variant);
 
 private:
     static QString s_dirName;
     QVariantMap m_info;
-    QFileSystemWatcher *m_watcher = nullptr;
+    KDirWatch *m_watcher = nullptr;
 };
 
 class ControlOutput;
@@ -90,15 +90,12 @@ public:
     bool getAutoRotateOnlyInTabletMode(const KScreen::OutputPtr &output) const;
     bool getAutoRotateOnlyInTabletMode(const QString &outputId, const QString &outputName) const;
     void setAutoRotateOnlyInTabletMode(const KScreen::OutputPtr &output, bool value);
-    void setAutoRotateOnlyInTabletMode(const QString &outputId, const QString &outputName,
-                                       bool value);
+    void setAutoRotateOnlyInTabletMode(const QString &outputId, const QString &outputName, bool value);
 
     KScreen::OutputPtr getReplicationSource(const KScreen::OutputPtr &output) const;
-    KScreen::OutputPtr getReplicationSource(const QString &outputId,
-                                            const QString &outputName) const;
+    KScreen::OutputPtr getReplicationSource(const QString &outputId, const QString &outputName) const;
     void setReplicationSource(const KScreen::OutputPtr &output, const KScreen::OutputPtr &source);
-    void setReplicationSource(const QString &outputId, const QString &outputName,
-                              const KScreen::OutputPtr &source);
+    void setReplicationSource(const QString &outputId, const QString &outputName, const KScreen::OutputPtr &source);
 
     QString dirPath() const override;
     QString filePath() const override;
@@ -110,11 +107,11 @@ private:
     QVariantList getOutputs() const;
     void setOutputs(QVariantList outputsInfo);
     bool infoIsOutput(const QVariantMap &info, const QString &outputId, const QString &outputName) const;
-    ControlOutput* getOutputControl(const QString &outputId, const QString &outputName) const;
+    ControlOutput *getOutputControl(const QString &outputId, const QString &outputName) const;
 
     KScreen::ConfigPtr m_config;
     QStringList m_duplicateOutputIds;
-    QVector<ControlOutput*> m_outputsControls;
+    QVector<ControlOutput *> m_outputsControls;
 };
 
 class ControlOutput : public Control

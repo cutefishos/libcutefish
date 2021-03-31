@@ -33,6 +33,9 @@ void Screen::load()
 
 void Screen::save()
 {
+    if (!m_config)
+        return;
+
     auto config = m_config->config();
     bool atLeastOneEnabledOutput = false;
 

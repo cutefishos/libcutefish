@@ -29,25 +29,27 @@ class OutputModel;
 class ConfigHandler : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit ConfigHandler (QObject *parent = nullptr);
+    explicit ConfigHandler(QObject *parent = nullptr);
     ~ConfigHandler() override = default;
 
     void setConfig(KScreen::ConfigPtr config);
     void updateInitialData();
 
-    OutputModel* outputModel() const {
+    OutputModel *outputModel() const
+    {
         return m_outputs;
     }
 
     QSize normalizeScreen();
 
-    KScreen::ConfigPtr config() const {
+    KScreen::ConfigPtr config() const
+    {
         return m_config;
     }
 
-    KScreen::ConfigPtr initialConfig() const {
+    KScreen::ConfigPtr initialConfig() const
+    {
         return m_initialConfig;
     }
 
@@ -92,8 +94,7 @@ private:
 
     std::unique_ptr<ControlConfig> m_control;
     std::unique_ptr<ControlConfig> m_initialControl;
-    Control::OutputRetention m_initialRetention = Control::OutputRetention::
-                                                  Undefined;
+    Control::OutputRetention m_initialRetention = Control::OutputRetention::Undefined;
     QSize m_lastNormalizedScreenSize;
 };
 

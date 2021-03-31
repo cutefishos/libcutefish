@@ -1,0 +1,24 @@
+Source: libcutefish
+Section: devel
+Priority: optional
+Maintainer: CutefishOS <cutefishos@foxmail.com>
+Build-Depends: cmake,
+               debhelper (>= 9),
+               extra-cmake-modules,
+               libkf5networkmanagerqt-dev,
+               libkf5kio-dev,
+               modemmanager-qt-dev,
+               libqt5sensors5-dev,
+               qtbase5-dev,
+               qtdeclarative5-dev,
+               qtquickcontrols2-5-dev,
+               qttools5-dev,
+               qttools5-dev-tools
+Standards-Version: 4.5.0
+Homepage: https://github.com/cutefishos/qt-plugins
+
+Package: libcutefish
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: CutefishOS Library
