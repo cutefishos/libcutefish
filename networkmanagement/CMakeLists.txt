@@ -11,9 +11,6 @@ set(NETWORKMGR_SRCS
     networkmodelitem.cpp
     networkmodelitem.h
 
-    networking.cpp
-    networking.h
-
     network.cpp
     network.h
 
@@ -31,6 +28,21 @@ set(NETWORKMGR_SRCS
 
     identitymodel.cpp
     identitymodel.h
+
+    handler.cpp
+    handler.h
+
+    configuration.cpp
+    configuration.h
+
+    enabledconnections.cpp
+    enabledconnections.h
+
+    enums.cpp
+    enums.h
+
+    wifisettings.cpp
+    wifisettings.h
 
     qmlplugins.cpp
     qmlplugins.h
