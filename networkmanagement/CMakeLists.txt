@@ -29,6 +29,9 @@ set(NETWORKMGR_SRCS
     connectionicon.cpp
     connectionicon.h
 
+    identitymodel.cpp
+    identitymodel.h
+
     qmlplugins.cpp
     qmlplugins.h
 )

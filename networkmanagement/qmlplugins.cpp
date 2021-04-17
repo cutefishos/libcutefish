@@ -7,6 +7,7 @@
 #include "wiressitemsettings.h"
 #include "connectionicon.h"
 #include "network.h"
+#include "identitymodel.h"
 
 #include <QQmlEngine>
 
@@ -21,4 +22,5 @@ void QmlPlugins::registerTypes(const char* uri)
     qmlRegisterType<WirelessItemSettings>(uri, 1, 0, "WirelessItemSettings");
     qmlRegisterType<ConnectionIcon>(uri, 1, 0, "ConnectionIcon");
     qmlRegisterType<Network>(uri, 1, 0, "Network");
+    qmlRegisterType<IdentityModel>(uri, 1, 0, "IdentityModel");
 }
