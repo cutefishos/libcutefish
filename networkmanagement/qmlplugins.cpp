@@ -11,6 +11,7 @@
 #include "enabledconnections.h"
 #include "enums.h"
 #include "wifisettings.h"
+#include "configuration.h"
 
 #include <QQmlEngine>
 
@@ -28,5 +29,6 @@ void QmlPlugins::registerTypes(const char* uri)
     qmlRegisterType<Handler>(uri, 1, 0, "Handler");
     qmlRegisterType<EnabledConnections>(uri, 1, 0, "EnabledConnections");
     qmlRegisterType<WifiSettings>(uri, 1, 0, "WifiSettings");
+    qmlRegisterType<Configuration>(uri, 1, 0, "Configuration");
     qmlRegisterUncreatableType<Enums>(uri, 1, 0, "Enums", "You cannot create Enums on yourself");
 }

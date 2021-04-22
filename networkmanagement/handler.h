@@ -52,6 +52,7 @@ public:
     ~Handler() override;
 
     Q_PROPERTY(bool hotspotSupported READ hotspotSupported NOTIFY hotspotSupportedChanged);
+
 public:
     bool hotspotSupported() const { return m_hotspotSupported; };
 
