@@ -21,5 +21,6 @@ Homepage: https://github.com/cutefishos/qt-plugins
 Package: libcutefish
 Architecture: any
 Depends: ${misc:Depends},
-         ${shlibs:Depends}
+         ${shlibs:Depends},
+         libkf5screen-bin
 Description: CutefishOS Library

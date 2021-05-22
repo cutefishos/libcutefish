@@ -67,7 +67,7 @@ void Screen::configReady(KScreen::ConfigOperation *op)
     }
 
     KScreen::ConfigPtr config = qobject_cast<KScreen::GetConfigOperation *>(op)->config();
-    const bool autoRotationSupported = config->supportedFeatures() & (KScreen::Config::Feature::AutoRotation | KScreen::Config::Feature::TabletMode);
+    // const bool autoRotationSupported = config->supportedFeatures() & (KScreen::Config::Feature::AutoRotation | KScreen::Config::Feature::TabletMode);
 
     m_config->setConfig(config);
 }
