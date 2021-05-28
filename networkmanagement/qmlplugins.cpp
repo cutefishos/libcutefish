@@ -2,7 +2,6 @@
 #include "networkmodel.h"
 #include "networkmodelitem.h"
 #include "appletproxymodel.h"
-#include "technologyproxymodel.h"
 #include "wiressitemsettings.h"
 #include "connectionicon.h"
 #include "network.h"
@@ -21,7 +20,6 @@ void QmlPlugins::registerTypes(const char* uri)
                                                 QLatin1String("Cannot instantiate NetworkModelItem"));
     qmlRegisterType<AppletProxyModel>(uri, 1, 0, "AppletProxyModel");
     qmlRegisterType<NetworkModel>(uri, 1, 0, "NetworkModel");
-    qmlRegisterType<TechnologyProxyModel>(uri, 1, 0, "TechnologyProxyModel");
     qmlRegisterType<WirelessItemSettings>(uri, 1, 0, "WirelessItemSettings");
     qmlRegisterType<ConnectionIcon>(uri, 1, 0, "ConnectionIcon");
     qmlRegisterType<Network>(uri, 1, 0, "Network");

@@ -1,5 +1,6 @@
 /*
     Copyright 2013-2014 Jan Grulich <jgrulich@redhat.com>
+    Copyright 2021 Reven Martin <aj@cutefishos.com>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -22,6 +23,22 @@
 #include "networkmodel.h"
 #include "uiutils.h"
 
+static NetworkManager::ConnectionSettings::ConnectionType convertType(AppletProxyModel::Type type)
+{
+    switch (type) {
+    case AppletProxyModel::UnknownType:
+        return NetworkManager::ConnectionSettings::ConnectionType::Unknown;
+    case AppletProxyModel::WiredType:
+        return NetworkManager::ConnectionSettings::ConnectionType::Wired;
+    case AppletProxyModel::WirelessType:
+        return NetworkManager::ConnectionSettings::ConnectionType::Wireless;
+    default:
+        break;
+    }
+
+    return NetworkManager::ConnectionSettings::ConnectionType::Unknown;
+}
+
 AppletProxyModel::AppletProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
 {
@@ -32,6 +49,24 @@ AppletProxyModel::AppletProxyModel(QObject *parent)
 
 AppletProxyModel::~AppletProxyModel()
 {
+}
+
+AppletProxyModel::Type AppletProxyModel::type() const
+{
+    return m_type;
+}
+
+void AppletProxyModel::setType(Type type)
+{
+    if (m_type == type)
+        return;
+    m_type = type;
+    Q_EMIT typeChanged();
+
+    if (type == UnknownType)
+        setFilterRole(0);
+    else
+        setFilterRole(NetworkModel::TypeRole);
 }
 
 bool AppletProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
@@ -48,6 +83,10 @@ bool AppletProxyModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
     if (!UiUtils::isConnectionTypeSupported(type)) {
         return false;
     }
+
+    // Type Filter
+    if (m_type == UnknownType || type != convertType(m_type))
+        return false;
 
     NetworkModelItem::ItemType itemType = (NetworkModelItem::ItemType)sourceModel()->data(index, NetworkModel::ItemTypeRole).toUInt();
 

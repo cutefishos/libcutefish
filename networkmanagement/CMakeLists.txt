@@ -17,9 +17,6 @@ set(NETWORKMGR_SRCS
     wiressitemsettings.cpp
     wiressitemsettings.h
 
-    technologyproxymodel.cpp
-    technologyproxymodel.h
-
     uiutils.cpp
     uiutils.h
 

@@ -1,5 +1,6 @@
 /*
     Copyright 2013-2014 Jan Grulich <jgrulich@redhat.com>
+    Copyright 2021 Reven Martin <aj@cutefishos.com>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -29,15 +30,32 @@
 class NETWORKMANAGER_EXPORT AppletProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
+    Q_PROPERTY(Type type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QAbstractItemModel * sourceModel READ sourceModel WRITE setSourceModel)
 
 public:
     explicit AppletProxyModel(QObject *parent = nullptr);
     ~AppletProxyModel() override;
 
+    enum Type {
+        UnknownType = 0,
+        WiredType,
+        WirelessType
+    };
+    Q_ENUM(Type)
+
+    Type type() const;
+    void setType(Type type);
+
+signals:
+    void typeChanged();
+
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+
+private:
+    Type m_type = UnknownType;
 };
 
 #endif // APPLETPROXYMODEL_H
