@@ -21,10 +21,10 @@ jobs:
 
     - name: Install the basic dev packages
 
-      run: sudo apt install -y equivs curl git devscripts lintian build-essential automake autotools-dev cmake g++ 
+      run: sudo apt install -y equivs curl git devscripts lintian build-essential automake autotools-dev cmake g++
 
     - name: Install build dependencies
-      run: sudo mk-build-deps -i -t "apt-get --yes" -r
+      run: sudo mk-build-deps -i -t "apt-get --yes"
 
     - name: Build Package
       run: sudo dpkg-buildpackage -b -uc -us -nc -tc -j$(nproc)
